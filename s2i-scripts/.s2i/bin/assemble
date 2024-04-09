@@ -14,7 +14,7 @@ echo "---> Installing application source <-------"
 
 cp -Rf /tmp/src/*.html ./
 
-export SERVER_HOST=1234
+env SERVER_HOST=1234
 
 DATE=$(date "+%b %d, %Y %H:%M:%S")
 
