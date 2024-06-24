@@ -1,0 +1,43 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: nodejs-build
+spec:
+  params:
+  - name: git-repo-url
+    description: The git repository url
+    # default:  "https://git.ocp4.example.com/developer/DO288-apps"
+  - name: git-revision
+    description: The git revision
+    # default: "master"
+  - name: git-repo-app-path
+    description: Path to the application
+    # default: "apps/pipelines-creation/exchange"
+
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: nodejs-build-run-
+    spec:
+      serviceAccountName: pipeline
+      pipelineRef:
+        name: nodejs-build
+      params:
+      - name: GIT_REPO
+        value: $(tt.params.git-repo-url)
+      - name: GIT_REVISION
+        value: $(tt.params.git-revision)
+      - name: APP_PATH
+        value: $(tt.params.git-repo-app-path)
+      workspaces:
+      - name: shared
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+            storageClassName: nfs-storage
+            volumeMode: Filesystem 
