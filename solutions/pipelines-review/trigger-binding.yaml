@@ -1,0 +1,15 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: maven-java-pipeline-tb
+spec:
+  params:
+  - name: git-repo-url
+    value: $(body.repository.url)
+    # value: "https://git.ocp4.example.com/developer/DO288-apps"    
+  - name: git-revision
+    value: $(body.head_commit.id)
+    # value: "master"
+  - name: git-repo-mvn-app-path
+    value: $(body.repository.path)  
+    # value: "apps/pipelines-review/vertx-site"
