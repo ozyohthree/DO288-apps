@@ -9,19 +9,19 @@ spec:
   params:
     - name: GIT_REPO
       type: string
-      default: "https://git.ocp4.example.com/developer/DO288-apps"
+      description: url to the repo where the application is
     - name: GIT_REVISION
       type: string
-      default: "master"
+      description: The git repo branch to be used
     - name: MVN_APP_PATH
       type: string
-      default: "apps/pipelines-review/vertx-site"
+      description: The path to the source
     - name: DEPLOY_ARTIFACT_NAME
       type: string
-      default: "target/vertx-site-1.0.0-SNAPSHOT-fat.jar"
+      description: The application artifact that will be deployed
     - name: DEPLOY_APP_NAME
       type: string
-      default: "vertx-site"
+      description: Application Name
 
   tasks:
     - name: clone-repository
