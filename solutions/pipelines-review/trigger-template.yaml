@@ -27,6 +27,10 @@ spec:
         value: $(tt.params.git-revision)
       - name: MVN_APP_PATH
         value: $(tt.params.git-repo-mvn-app-path)
+      - name: DEPLOY_ARTIFACT_NAME
+        value: "target/vertx-site-1.0.0-SNAPSHOT-fat.jar"
+      - name: DEPLOY_APP_NAME
+        value: "vertx-site"        
       workspaces:
       - name: shared
         volumeClaimTemplate:
