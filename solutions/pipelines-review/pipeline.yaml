@@ -48,17 +48,15 @@ spec:
       params:
       - name: app_path
         value: $(params.MVN_APP_PATH)
-      runAfter:
-        - clone-repository
       workspaces:
         - workspace: shared
           name: source
         - workspace: maven_config
           name: maven_config
+      runAfter:
+        - clone-repository
 
     - name: oc-deploy
-      runAfter:
-        - "build"
       taskRef:
         name: openshift-client
         kind: ClusterTask
@@ -77,9 +75,10 @@ spec:
             oc new-app $(params.DEPLOY_APP_NAME):latest \
               --name $(params.DEPLOY_APP_NAME) || echo "application exists"
             oc expose svc $(params.DEPLOY_APP_NAME) || echo "route exists"
-    - name: skopeo-copy
       runAfter:
-          - "oc-deploy"
+        - build
+        
+    - name: skopeo-copy
       taskRef:
         name: skopeo-copy-internal
         kind: ClusterTask
@@ -90,3 +89,5 @@ spec:
           value: docker://registry.ocp4.example.com:8443/developer/$(params.DEPLOY_APP_NAME)
         - name: image
           value: registry.ocp4.example.com:8443/ubi9/skopeo:9.2
+      runAfter:
+        - oc-deploy
