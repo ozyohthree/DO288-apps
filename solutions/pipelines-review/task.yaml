@@ -5,7 +5,9 @@ metadata:
 spec:
   workspaces:
   - name: source
+    description: Source code will be cloned onto the volume backing source workspace
   - name: maven_config
+    description: This workspace will contain the settings.xml as a secret [mvn-settings]
   params:
   - name: app_path
     description: Path to the application source code in the directory
