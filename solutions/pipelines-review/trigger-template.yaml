@@ -12,32 +12,4 @@ spec:
     description: Path to the application
 
   resourcetemplates:
-  - apiVersion: tekton.dev/v1beta1
-    kind: PipelineRun
-    metadata:
-      generateName: maven-java-pipeline-run-
-    spec:
-      serviceAccountName: pipeline
-      pipelineRef:
-        name: maven-java-pipeline
-      params:
-      - name: GIT_REPO
-        value: $(tt.params.git-repo-url)
-      - name: GIT_REVISION
-        value: $(tt.params.git-revision)
-      - name: MVN_APP_PATH
-        value: $(tt.params.git-repo-mvn-app-path)
-      workspaces:
-      - name: shared
-        volumeClaimTemplate:
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
-            storageClassName: nfs-storage
-            volumeMode: Filesystem  
-      - name: maven_config
-        secret:
-          secretName: mvn-settings
+  # YOUR WORK HERE

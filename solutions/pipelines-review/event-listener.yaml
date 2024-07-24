@@ -3,6 +3,4 @@ kind: EventListener
 metadata:
   name: maven-java-pipeline
 spec:
-  serviceAccountName: pipeline
-  triggers:
-    - triggerRef: maven-java-pipeline-trigger
+  # YOUR WORK HERE
