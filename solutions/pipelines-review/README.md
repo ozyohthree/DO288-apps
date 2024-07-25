@@ -16,6 +16,8 @@
     oc create -f trigger-binding.yaml
     oc create -f trigger.yaml
     oc create -f webhook-secret.yaml
+    #alternative
+    oc create secret generic github-secret --from-literal=secretToken="1234567"
     oc create -f event-listener.yaml
     
 ```
