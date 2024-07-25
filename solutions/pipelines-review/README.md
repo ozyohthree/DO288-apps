@@ -3,7 +3,7 @@
 ```bash
     # Create task and pipeline
     oc create -f task.yaml
-    oc create secret generic mvn-settings
+    oc create secret generic mvn-settings --from-file=settings.xml
     oc create -f pipeline.yaml
     # Add quay registry secret to pipeline serviceaccount for skopeo-copy to push image to registry
     oc create secret docker-registry registry-secret \
