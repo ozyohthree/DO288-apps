@@ -15,8 +15,15 @@
     oc create -f trigger-template.yaml
     oc create -f trigger-binding.yaml
     oc create -f trigger.yaml
-    oc create secret generic github-secret --from-literal=secretToken="1234567"
-    # alternative: oc create -f webhook-secret.yaml
     oc create -f event-listener.yaml
+
+    # Validate  
+    curl -H 'Content-Type: application/json' \
+         -d '{"head_commit":{"id":"pipelines-review-webhook"},\
+            "repository":{"url":"https://github.com/ozyohthree/DO288-apps",\
+            "name": "apps/pipelines-review/vertx-site"}}' \
+         -X POST http://el-maven-java-pipeline-pipelines-review.apps.ocp4.example.com
+
+
     
 ```
