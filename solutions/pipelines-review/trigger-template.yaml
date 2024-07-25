@@ -8,8 +8,6 @@ spec:
     description: The git repository url
   - name: git-revision
     description: The git revision
-  # - name: git-repo-mvn-app-path
-  #   description: Path to the application
 
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
