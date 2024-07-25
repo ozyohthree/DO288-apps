@@ -8,5 +8,5 @@ spec:
     value: $(body.repository.url)
   - name: git-revision
     value: $(body.head_commit.id)
-  - name: git-repo-mvn-app-path
-    value: $(body.repository.path)  
+  # - name: git-repo-mvn-app-path
+  #   value: $(body.repository.path)  
