@@ -8,8 +8,38 @@ spec:
     description: The git repository url
   - name: git-revision
     description: The git revision
-  - name: git-repo-mvn-app-path
-    description: Path to the application
 
   resourcetemplates:
-  # YOUR WORK HERE
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: maven-java-pipeline-run-
+    spec:
+      serviceAccountName: pipeline
+      pipelineRef:
+        name: maven-java-pipeline
+      params:
+      - name: GIT_REPO
+        value: $(tt.params.git-repo-url)
+      - name: GIT_REVISION
+        value: $(tt.params.git-revision)
+      - name: MVN_APP_PATH
+        value: "apps/pipelines-review/vertx-site"
+      - name: DEPLOY_ARTIFACT_NAME
+        value: "target/vertx-site-1.0.0-SNAPSHOT-fat.jar"
+      - name: DEPLOY_APP_NAME
+        value: "vertx-site"        
+      workspaces:
+      - name: shared
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+            storageClassName: nfs-storage
+            volumeMode: Filesystem  
+      - name: maven_config
+        secret:
+          secretName: mvn-settings

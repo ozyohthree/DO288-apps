@@ -25,13 +25,78 @@ spec:
 
   tasks:
     - name: clone-repository
-    # YOUR WORK HERE
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_REVISION)
+        - name: deleteExisting
+          value: 'true'
+        - name: sslVerify
+          value: 'false'
+      workspaces:
+        - name: output
+          workspace: shared
 
     - name: build
-    # YOUR WORK HERE
+      taskRef:
+        name: maven-task
+        kind: Task
+      params:
+      - name: app_path
+        value: $(params.MVN_APP_PATH)
+      workspaces:
+        - workspace: shared
+          name: source
+        - workspace: maven_config
+          name: maven_config
+      runAfter:
+        - clone-repository
 
     - name: oc-deploy
-    # YOUR WORK HERE
+      taskRef:
+        name: openshift-client
+        kind: ClusterTask
+      workspaces:
+        - name: manifest-dir
+          workspace: shared
+      params:
+        - name: SCRIPT
+          value: |
+            cd  "$(workspaces.manifest-dir.path)/$(params.MVN_APP_PATH)" || exit 1
+            oc new-build --name=$(params.DEPLOY_APP_NAME) \
+              -l app=$(params.DEPLOY_APP_NAME)  --binary=true \
+              --image-stream=openshift/java:8 || echo "BC already exists"
+            oc start-build $(params.DEPLOY_APP_NAME) --wait=true \
+              --from-file=$(params.DEPLOY_ARTIFACT_NAME)
+            oc new-app $(params.DEPLOY_APP_NAME):latest \
+              --name $(params.DEPLOY_APP_NAME) || echo "application exists"
+            oc expose svc $(params.DEPLOY_APP_NAME) || echo "route exists"
+      runAfter:
+        - build
 
+    # NOTE: changed to skope-copy task which needs to authenticate to quay registry to push
+    # create secret 
+    # $ oc create secret docker-registry registry-secret \  
+    #    --from-file=.dockerconfigjson=${XDG_RUNTIME}/containers/auth.json
+    # link secret to pipeline serviceaccount
+    # $ oc secrets link pipeline registry-secret
     - name: skopeo-copy
-    # YOUR WORK HERE
+      taskRef:
+        name: skopeo-copy
+        kind: ClusterTask
+      params:
+        - name: srcImageURL
+          value: docker://default-route-openshift-image-registry.apps.ocp4.example.com/pipelines-review/$(params.DEPLOY_APP_NAME)
+        - name: destImageURL
+          value: docker://registry.ocp4.example.com:8443/developer/$(params.DEPLOY_APP_NAME)
+        - name: image
+          value: registry.ocp4.example.com:8443/ubi9/skopeo:9.2
+      workspaces:
+        - name: images-url
+          workspace: shared
+      runAfter:
+        - oc-deploy

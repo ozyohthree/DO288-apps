@@ -4,4 +4,7 @@ metadata:
   name: maven-java-pipeline-tb
 spec:
   params:
-  # YOUR WORK HERE
+  - name: git-repo-url
+    value: $(body.repository.url)
+  - name: git-revision
+    value: $(body.head_commit.id) 
