@@ -11,7 +11,7 @@ spec:
     - name: GIT_REPO
       value: "https://github.com/ozyohthree/DO288-apps"
     - name: GIT_REVISION
-      value: "pipelines-review-webhook"
+      value: "pipelines-review-soln"
     - name: MVN_APP_PATH
       value: "apps/pipelines-review/vertx-site"
     - name: DEPLOY_ARTIFACT_NAME
