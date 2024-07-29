@@ -3,8 +3,4 @@ kind: Trigger
 metadata:
   name: maven-java-pipeline-trigger
 spec:
-  serviceAccountName: pipeline
-  bindings:
-    - ref: maven-java-pipeline-tb
-  template:
-    ref: maven-java-pipeline-tt
+# Your work here

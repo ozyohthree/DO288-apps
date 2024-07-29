@@ -3,8 +3,4 @@ kind: TriggerBinding
 metadata:
   name: maven-java-pipeline-tb
 spec:
-  params:
-  - name: git-repo-url
-    value: $(body.repository.url)
-  - name: git-revision
-    value: $(body.head_commit.id) 
+# Your work here
