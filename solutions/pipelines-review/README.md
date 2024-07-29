@@ -18,10 +18,17 @@
     oc create -f event-listener.yaml
 
     # Validate  
-    curl -H 'Content-Type: application/json' \
-        -d '{"head_commit":{"id":"pipelines-review"},"repository":{"url":"https://github.com/ozyohthree/DO288-apps","name": "apps/pipelines-review/vertx-site"}}' \
-        -X POST \
-        http://el-maven-java-pipeline-pipelines-review.apps.ocp4.example.com
+    curl -H 'Content-Type: application/json'                       \
+         -d '{                                                     \
+             "head_commit": {                                      \
+                "id": "pipelines-review"                           \
+            },                                                     \
+            "repository": {                                        \
+                "name": "apps/pipelines-review/vertx-site",        \
+                "url": "https://github.com/ozyohthree/DO288-apps"  \
+            }                                                      \
+            }'                                                     \
+         -X POST http://el-maven-java-pipeline-pipelines-review.apps.ocp4.example.com   
 
 
     
