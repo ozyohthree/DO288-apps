@@ -16,6 +16,7 @@ oc create -f trigger-template.yaml
 oc create -f trigger-binding.yaml
 oc create -f trigger.yaml
 oc create -f event-listener.yaml
+tkn p logs -f 
 
 # Validate  
 curl -H 'Content-Type: application/json'                          \
