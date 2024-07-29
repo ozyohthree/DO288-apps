@@ -1,6 +1,10 @@
 # STEPS
 
 ```bash
+# Login to OCP using alias
+oclogin
+# Login to quay via podman using alias
+podmanlogin
 # Create task and pipeline
 oc create -f task.yaml
 oc create secret generic mvn-settings --from-file=settings.xml
@@ -17,6 +21,7 @@ oc create -f trigger-template.yaml
 oc create -f trigger-binding.yaml
 oc create -f trigger.yaml
 oc create -f event-listener.yaml
+# Expose the Event Listener Service
 oc expose svc el-maven-java-pipeline
 
 
