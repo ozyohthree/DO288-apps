@@ -10,6 +10,7 @@ oc create secret docker-registry registry-secret \
     --from-file=.dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json
 oc secrets link pipeline registry-secret
 oc create -f pipelinerun.yaml 
+tkn p logs -f 
 
 # Create Trigger
 oc create -f trigger-template.yaml
