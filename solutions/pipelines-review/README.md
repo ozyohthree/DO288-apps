@@ -10,13 +10,15 @@ oc create secret docker-registry registry-secret \
     --from-file=.dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json
 oc secrets link pipeline registry-secret
 oc create -f pipelinerun.yaml 
+tkn p logs -f 
 
 # Create Trigger
 oc create -f trigger-template.yaml
 oc create -f trigger-binding.yaml
 oc create -f trigger.yaml
 oc create -f event-listener.yaml
-tkn p logs -f 
+oc expose svc el-maven-java-pipeline
+
 
 # Validate  
 curl -H 'Content-Type: application/json'                          \
