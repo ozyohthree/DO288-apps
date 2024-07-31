@@ -1,5 +1,7 @@
 # STEPS
 
+## create pipeline
+
 ```bash
 # Validate application builds and run
 mvn clean compile exec:java 
@@ -17,6 +19,12 @@ oc create secret docker-registry registry-secret \
 oc secrets link pipeline registry-secret
 oc create -f pipelinerun.yaml 
 tkn p logs -f 
+
+```
+
+## [Create Trigger](https://tekton.dev/vault/triggers-v0.26.x-lts/)
+
+```bash
 
 # Create Trigger
 # A TriggerTemplate is a resource that exposes parameters that can be 
