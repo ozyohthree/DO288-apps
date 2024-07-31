@@ -1,6 +1,6 @@
 # STEPS
 
-## create pipeline
+## Create Pipeline
 
 ```bash
 # Validate application builds and run
