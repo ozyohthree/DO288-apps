@@ -1,6 +1,8 @@
 # STEPS
 
 ```bash
+# Validate application builds and run
+mvn clean compile exec:java 
 # Login to OCP using alias
 oclogin
 # Login to quay via podman using alias
