@@ -1,23 +1,15 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: maven-task
 spec:
   workspaces:
-  - name: source
-    description: Source code will be cloned onto the volume backing source workspace
-  - name: maven_config
-    description: The settings.xml file will be in a secret [mvn-settings] backing the maven_config workspace
+    # TODO
   params:
-  - name: app_path
-    description: Path to the application source code in the directory
-    type: string
+    # TODO
   steps:
     - name: build
-      image: registry.ocp4.example.com:8443/ubi8/openjdk-11:1.16-3
-      workingDir: $(workspaces.source.path)/$(params.app_path)
-      script: |
-        mvn clean package -s $(workspaces.maven_config.path)/settings.xml
+      # TODO
       securityContext:
         runAsNonRoot: true
         runAsUser: 65532

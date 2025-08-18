@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: maven-java-pipeline
@@ -9,93 +9,51 @@ spec:
   params:
     - name: GIT_REPO
       type: string
-      description: url to the repo where the application is
+      default: "https://git.ocp4.example.com/developer/DO288-apps"
     - name: GIT_REVISION
       type: string
-      description: The git repo branch to be used
+      default: "master"
     - name: MVN_APP_PATH
       type: string
-      description: The path to the source
+      default: "builds-applications/apps/vertx-site"
     - name: DEPLOY_ARTIFACT_NAME
       type: string
-      description: The application artifact that will be deployed
+      default: "target/vertx-site-1.0.0-SNAPSHOT-fat.jar"
     - name: DEPLOY_APP_NAME
       type: string
-      description: Application Name
+      default: "vertx-site"
 
   tasks:
     - name: clone-repository
       taskRef:
-        name: git-clone
-        kind: ClusterTask
+        # TODO
       params:
-        - name: url
-          value: $(params.GIT_REPO)
-        - name: revision
-          value: $(params.GIT_REVISION)
+        # TODO
         - name: deleteExisting
           value: 'true'
         - name: sslVerify
           value: 'false'
       workspaces:
-        - name: output
-          workspace: shared
+        # TODO
 
     - name: build
       taskRef:
-        name: maven-task
-        kind: Task
+        # TODO
       params:
-      - name: app_path
-        value: $(params.MVN_APP_PATH)
+        # TODO
       workspaces:
-        - workspace: shared
-          name: source
-        - workspace: maven_config
-          name: maven_config
-      runAfter:
-        - clone-repository
+        # TODO
 
     - name: oc-deploy
       taskRef:
-        name: openshift-client
-        kind: ClusterTask
+        # TODO
       workspaces:
-        - name: manifest-dir
-          workspace: shared
+        # TODO
       params:
-        - name: SCRIPT
-          value: |
-            cd  "$(workspaces.manifest-dir.path)/$(params.MVN_APP_PATH)" || exit 1
-            oc new-build --name=$(params.DEPLOY_APP_NAME) \
-              -l app=$(params.DEPLOY_APP_NAME)  --binary=true \
-              --image-stream=openshift/java:8 || echo "BC already exists"
-            oc start-build $(params.DEPLOY_APP_NAME) --wait=true \
-              --from-file=$(params.DEPLOY_ARTIFACT_NAME)
-            oc new-app $(params.DEPLOY_APP_NAME):latest \
-              --name $(params.DEPLOY_APP_NAME) || echo "application exists"
-            oc expose svc $(params.DEPLOY_APP_NAME) || echo "route exists"
-      runAfter:
-        - build
+        # TODO
 
-    # NOTE: changed to skope-copy task which needs to authenticate to quay registry to push
-    # create secret 
-    # $ oc create secret docker-registry registry-secret --from-file=.dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json
-    # link secret to pipeline serviceaccount
-    # $ oc secrets link pipeline registry-secret
     - name: skopeo-copy
       taskRef:
-        name: skopeo-copy
-        kind: ClusterTask
+        # TODO
       params:
-        - name: srcImageURL
-          value: docker://default-route-openshift-image-registry.apps.ocp4.example.com/pipelines-review/$(params.DEPLOY_APP_NAME)
-        - name: destImageURL
-          value: docker://registry.ocp4.example.com:8443/developer/$(params.DEPLOY_APP_NAME)
-        - name: image
-          value: registry.ocp4.example.com:8443/ubi9/skopeo:9.2
-      workspaces:
-        - name: images-url
-          workspace: shared
-      runAfter:
-        - oc-deploy
+        # TODO
