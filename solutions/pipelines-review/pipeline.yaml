@@ -80,8 +80,7 @@ spec:
 
     # NOTE: changed to skope-copy task which needs to authenticate to quay registry to push
     # create secret 
-    # $ oc create secret docker-registry registry-secret \  
-    #    --from-file=.dockerconfigjson=${XDG_RUNTIME}/containers/auth.json
+    # $ oc create secret docker-registry registry-secret --from-file=.dockerconfigjson=${XDG_RUNTIME}/containers/auth.json
     # link secret to pipeline serviceaccount
     # $ oc secrets link pipeline registry-secret
     - name: skopeo-copy
